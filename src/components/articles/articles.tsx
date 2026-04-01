@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Topic, SortKey, FilterArticlesType } from '../../types';
 import { filterArticles, sortArticles } from '../../utils';
 import { ArticleCard } from '../article-card';
-import { useArticles } from '../../hooks';
+import { useArticles, useSearchParams } from '../../hooks';
 
 export const TOPICS = ['technology', 'finance', 'sports', 'health'] as const satisfies Topic[];
 
@@ -49,9 +49,9 @@ const styles = {
 } as const;
 
 export const Articles = () => {
-  const [search, setSearch] = useState('');
-  const [topic, setTopic] = useState<FilterArticlesType>('all');
-  const [sortKey, setSortKey] = useState<SortKey>('date');
+  const [search, setSearch] = useSearchParams<string>('search', '');
+  const [topic, setTopic] = useSearchParams<FilterArticlesType>('topic', 'all');
+  const [sortKey, setSortKey] = useSearchParams<SortKey>('sort', 'date');
 
   const { data, isLoading } = useArticles();
 

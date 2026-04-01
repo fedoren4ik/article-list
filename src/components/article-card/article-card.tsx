@@ -15,7 +15,7 @@ const styles = {
     gap: 6,
   },
   title: { margin: 0, fontSize: 16, fontWeight: 600 },
-  meta: { display: 'flex', gap: 16, fontSize: 13, color: '#555' },
+  meta: { display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#555' },
 } as const;
 
 export const ArticleCard = ({ article }: ArticleCardProps) => (

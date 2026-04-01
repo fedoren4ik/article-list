@@ -5,6 +5,8 @@ import * as useArticlesModule from '../../hooks/use-articles';
 import { Articles } from '../articles';
 
 beforeEach(() => {
+  window.history.pushState(null, '', '/');
+
   jest.spyOn(useArticlesModule, 'useArticles').mockReturnValue({
     data: articlesList,
     isLoading: false,
@@ -20,6 +22,25 @@ function setup() {
   render(<Articles />);
   return { user };
 }
+
+describe('Loading state', () => {
+  it('shows loading indicator while fetching', () => {
+    jest.spyOn(useArticlesModule, 'useArticles').mockReturnValue({
+      data: [],
+      isLoading: true,
+    });
+
+    setup();
+
+    expect(screen.getByRole('status')).toHaveTextContent('Loading articles…');
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
+  });
+
+  it('hides loading indicator when data is ready', () => {
+    setup();
+    expect(screen.queryByText('Loading articles…')).not.toBeInTheDocument();
+  });
+});
 
 describe('ArticleList rendering', () => {
   it('renders all articles on initial load', () => {
