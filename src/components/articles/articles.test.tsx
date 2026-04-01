@@ -1,7 +1,19 @@
-import { render, screen, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { articlesList } from "../../data";
-import { Articles } from "../articles";
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { articlesList } from '../../data';
+import * as useArticlesModule from '../../hooks/use-articles';
+import { Articles } from '../articles';
+
+beforeEach(() => {
+  jest.spyOn(useArticlesModule, 'useArticles').mockReturnValue({
+    data: articlesList,
+    isLoading: false,
+  });
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+});
 
 function setup() {
   const user = userEvent.setup({ document });
@@ -35,7 +47,7 @@ describe('Search by title', () => {
   it('filters articles as the user types', async () => {
     const { user } = setup();
     await user.type(screen.getByRole('textbox', { name: /search/i }), 'AI');
-      screen.getAllByRole('article').forEach((item: any) =>
+    screen.getAllByRole('article').forEach((item) =>
       expect(within(item).getByRole('heading').textContent?.toLowerCase()).toContain('ai'),
     );
   });
@@ -115,7 +127,7 @@ describe('Sort articles', () => {
     await user.selectOptions(screen.getByRole('combobox', { name: /sort articles/i }), 'title-desc');
     const titles = screen
       .getAllByRole('heading', { level: 3 })
-      .map((el: any) => el.textContent ?? '');
+      .map((el) => el.textContent ?? '');
     for (let i = 1; i < titles.length; i++) {
       expect(titles[i - 1].localeCompare(titles[i])).toBeGreaterThanOrEqual(0);
     }
@@ -127,7 +139,7 @@ describe('Composed filters', () => {
     const { user } = setup();
     await user.selectOptions(screen.getByRole('combobox', { name: /filter by topic/i }), 'technology');
     await user.type(screen.getByRole('textbox', { name: /search/i }), 'AI');
-    screen.getAllByRole('article').forEach((item: any) => {
+    screen.getAllByRole('article').forEach((item) => {
       expect(within(item).getByTestId('article-topic')).toHaveTextContent('technology');
       expect(within(item).getByRole('heading').textContent?.toLowerCase()).toContain('ai');
     });

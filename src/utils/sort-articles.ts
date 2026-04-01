@@ -14,4 +14,4 @@ export const sortArticles = (articles: Article[], sortKey: SortKey): Article[] =
   }
 
   return copy.sort((a, b) => a.title.localeCompare(b.title));
-}
+};

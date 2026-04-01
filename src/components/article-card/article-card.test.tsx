@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 import { Article } from "../../types";
-import { ArticleCard } from './article-card';
+import { ArticleCard } from "./article-card";
 
 const article: Article = {
   id: '1',
