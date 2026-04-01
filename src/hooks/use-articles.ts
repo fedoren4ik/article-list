@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Article } from "../types";
 import { articlesList } from "../data";
 
-export const useArticles = () => {
+type ArticlesResultType = { data: Article[]; isLoading: boolean };
+
+export const useArticles = (): ArticlesResultType => {
   const [data, setData] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -13,7 +15,7 @@ export const useArticles = () => {
     }, 600);
 
     return () => clearTimeout(timer);
-    }, []);
+  }, []);
 
   return { data, isLoading };
-}
+};

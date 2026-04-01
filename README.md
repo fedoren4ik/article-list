@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# Article List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript article browser with live search, topic filtering, and sorting. Filter state is synced to the URL so results are shareable and survive browser navigation.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19** — UI
+- **TypeScript 5.9** — strict mode enabled
+- **Vite 8** — dev server and build
+- **Jest 30 + React Testing Library** — unit and integration tests
+- **ESLint 9** — linting with `typescript-eslint` and `react-hooks` plugins
 
-## React Compiler
+## Requirements
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Node.js** `>=20.19.0` (Vite 8 requirement — run `nvm use` if you have a `.nvmrc`-aware shell)
+- **Yarn** `>=1.22.0`
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+nvm use          # switches to Node 20.19.0 automatically if using nvm
+yarn install
+yarn dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app runs at `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Command | Description |
+|---|---|
+| `yarn dev` | Start the development server |
+| `yarn build` | Type-check and build for production |
+| `yarn preview` | Serve the production build locally |
+| `yarn test` | Run tests with coverage |
+| `yarn lint` | Run ESLint |
+
+## Project structure
+
 ```
+src/
+├── components/
+│   ├── articles/          # Main list view — search, filter, sort controls
+│   └── article-card/      # Single article card
+├── hooks/
+│   ├── use-articles.ts    # Data fetching hook
+│   └── use-search-params.ts  # URL search param state (popstate-aware)
+├── utils/
+│   ├── filter-articles.ts
+│   ├── sort-articles.ts
+│   ├── format-date.ts
+│   └── capitalize.ts
+├── types/                 # Shared TypeScript types
+└── data/
+    ├── articles-list.ts   # Static article data
+    └── topics.ts          # TOPICS constant
+```
+
+## Features
+
+- **Search** — filters by title, case-insensitive
+- **Topic filter** — technology, finance, sports, health
+- **Sort** — newest first, title A → Z, title Z → A
+- **URL sync** — all filter state is stored in query params; Back/Forward works correctly
+
+## Running tests
+
+```bash
+yarn test
+```
+
+Coverage report is written to `coverage/`. Tests cover loading state, search, filtering, sorting, and composed filter combinations.

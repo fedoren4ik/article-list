@@ -1,8 +1,8 @@
-import { render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { articlesList } from '../../data';
-import * as useArticlesModule from '../../hooks/use-articles';
-import { Articles } from '../articles';
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { articlesList } from "../../data";
+import * as useArticlesModule from "../../hooks/use-articles";
+import { Articles } from "../articles";
 
 beforeEach(() => {
   window.history.pushState(null, '', '/');

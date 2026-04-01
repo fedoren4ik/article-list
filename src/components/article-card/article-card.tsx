@@ -1,5 +1,5 @@
-import { Article } from '../../types';
-import { formatDate } from '../../utils';
+import { Article } from "../../types";
+import { formatDate } from "../../utils";
 
 type ArticleCardProps = {
   article: Article;
@@ -21,9 +21,9 @@ const styles = {
 export const ArticleCard = ({ article }: ArticleCardProps) => (
   <article style={styles.card}>
     <h3 style={styles.title}>{article.title}</h3>
-      <div style={styles.meta}>
-        <span data-testid="article-topic">{article.topic}</span>
-        <span data-testid="article-date">{formatDate(article.publishedAt)}</span>
-      </div>
+    <div style={styles.meta}>
+      <span data-testid="article-topic">{article.topic}</span>
+      <span data-testid="article-date">{formatDate(article.publishedAt)}</span>
+    </div>
   </article>
 );

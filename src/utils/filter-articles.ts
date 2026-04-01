@@ -8,6 +8,6 @@ export const filterArticles = (
   return articles.filter((a) => {
     const matchesTopic = topic === 'all' || a.topic === topic;
     const matchesSearch = a.title.toLowerCase().includes(search.trim().toLowerCase());
-      return matchesTopic && matchesSearch;
+    return matchesTopic && matchesSearch;
   });
 };

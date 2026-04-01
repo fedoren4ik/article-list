@@ -1,12 +1,9 @@
-import { useMemo } from 'react';
-import { Topic, SortKey, FilterArticlesType } from '../../types';
-import { filterArticles, sortArticles } from '../../utils';
-import { ArticleCard } from '../article-card';
-import { useArticles, useSearchParams } from '../../hooks';
-
-export const TOPICS = ['technology', 'finance', 'sports', 'health'] as const satisfies Topic[];
-
-const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+import { useMemo } from "react";
+import { SortKey, FilterArticlesType } from "../../types";
+import { filterArticles, sortArticles, capitalize } from "../../utils";
+import { ArticleCard } from "../article-card";
+import { useArticles, useSearchParams } from "../../hooks";
+import { TOPICS } from "../../data";
 
 const styles = {
   wrapper: {
@@ -63,62 +60,62 @@ export const Articles = () => {
   return (
     <div style={styles.wrapper}>
       <h1 style={styles.heading}>Articles</h1>
-        <div style={styles.controls}>
-          <input
-            type="text"
-            aria-label="Search by title"
-            placeholder="Search by title…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={styles.input}
-          />
+      <div style={styles.controls}>
+        <input
+          type="text"
+          aria-label="Search by title"
+          placeholder="Search by title…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={styles.input}
+        />
 
-          <select
-            aria-label="Filter by topic"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value as FilterArticlesType)}
-            style={styles.select}
-          >
-            <option value="all">All topics</option>
-            {TOPICS.map((t) => (
-              <option key={t} value={t}>
-                {capitalize(t)}
-              </option>
-            ))}
-          </select>
+        <select
+          aria-label="Filter by topic"
+          value={topic}
+          onChange={(e) => setTopic(e.target.value as FilterArticlesType)}
+          style={styles.select}
+        >
+          <option value="all">All topics</option>
+          {TOPICS.map((t) => (
+            <option key={t} value={t}>
+              {capitalize(t)}
+            </option>
+          ))}
+        </select>
 
-          <select
-            aria-label="Sort articles"
-            value={sortKey}
-            onChange={(e) => setSortKey(e.target.value as SortKey)}
-            style={styles.select}
-          >
-            <option value="date">Newest first</option>
-            <option value="title-asc">Title A → Z</option>
-            <option value="title-desc">Title Z → A</option>
-          </select>
-        </div>
+        <select
+          aria-label="Sort articles"
+          value={sortKey}
+          onChange={(e) => setSortKey(e.target.value as SortKey)}
+          style={styles.select}
+        >
+          <option value="date">Newest first</option>
+          <option value="title-asc">Title A → Z</option>
+          <option value="title-desc">Title Z → A</option>
+        </select>
+      </div>
 
-        {isLoading ? (
-          <p role="status" style={styles.feedback}>Loading articles…</p>
-        ) : (
-          <>
-            <p style={styles.resultCount}>
-              {displayed.length} of {data.length} articles
-            </p>
-            {displayed.length === 0 ? (
-              <p role="status">No articles found.</p>
-            ) : (
-              <ul aria-label="Article list" style={styles.list}>
-                {displayed.map((article) => (
-                  <li key={article.id}>
-                    <ArticleCard article={article} />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </>
-        )}
+      {isLoading ? (
+        <p role="status" style={styles.feedback}>Loading articles…</p>
+      ) : (
+        <>
+          <p style={styles.resultCount}>
+            {displayed.length} of {data.length} articles
+          </p>
+          {displayed.length === 0 ? (
+            <p role="status">No articles found.</p>
+          ) : (
+            <ul aria-label="Article list" style={styles.list}>
+              {displayed.map((article) => (
+                <li key={article.id}>
+                  <ArticleCard article={article} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
     </div>
   );
 };
